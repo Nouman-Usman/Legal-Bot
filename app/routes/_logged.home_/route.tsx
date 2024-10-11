@@ -28,6 +28,7 @@ export default function ClientHomePage() {
   const { data: recommendedLawyers } = Api.lawyerProfile.findMany.useQuery({
     take: 3,
     orderBy: { yearsOfExperience: 'desc' },
+    include: { user: true },
   })
 
   const { data: unreadMessages } = Api.message.findMany.useQuery({
@@ -71,7 +72,7 @@ export default function ClientHomePage() {
                 renderItem={lawyer => (
                   <List.Item>
                     <List.Item.Meta
-                      title={lawyer.user?.name}
+                      title={lawyer.name}
                       description={`Specialties: ${lawyer.specialties}`}
                     />
                   </List.Item>
