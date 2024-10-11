@@ -72,7 +72,7 @@ export default function ClientHomePage() {
                 renderItem={lawyer => (
                   <List.Item>
                     <List.Item.Meta
-                      title={lawyer.name}
+                      title={lawyer.user.name}
                       description={`Specialties: ${lawyer.specialties}`}
                     />
                   </List.Item>

@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from '@remix-run/react'
 import { useUploadPublic } from '@/plugins/upload/client'
 import { Api } from '@/core/trpc'
 import { PageLayout } from '@/designSystem'
+import { Prisma } from '@prisma/client'
 
 export default function ChatbotInterfacePage() {
   const [messages, setMessages] = useState<
@@ -27,12 +28,14 @@ export default function ChatbotInterfacePage() {
 
   const generateText = Api.ai.generateText.useMutation()
   const { data: lawyerProfiles, isLoading: isLoadingLawyers } =
-    Api.lawyerProfile.findMany.useQuery({})
+    Api.lawyerProfile.findMany.useQuery({
+      include: { user: true },
+    })
 
   useEffect(() => {
     if (lawyerProfiles) {
       const formattedLawyers = lawyerProfiles.map(profile => ({
-        name: profile.user?.name || 'Unknown',
+        name: profile.user.name || 'Unknown',
         specialty: profile.specialties || 'General',
       }))
       setLawyers(formattedLawyers)

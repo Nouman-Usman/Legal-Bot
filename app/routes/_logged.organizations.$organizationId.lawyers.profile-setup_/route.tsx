@@ -134,7 +134,6 @@ export default function LawyerProfileSetupPage() {
             <Select
               mode="multiple"
               placeholder="Select your specialties"
-              prefix={<TagsOutlined />}
             >
               <Option value="criminal">Criminal Law</Option>
               <Option value="civil">Civil Law</Option>
