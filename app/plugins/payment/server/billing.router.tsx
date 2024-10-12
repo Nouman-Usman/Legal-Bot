@@ -1,6 +1,5 @@
 import { Configuration } from '@/core/configuration'
 import { User } from '@prisma/client'
-import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { Trpc } from '~/core/trpc/base'
 import { PaymentService } from './payment.service'
@@ -148,19 +147,19 @@ export const BillingRouter = Trpc.createRouter({
 })
 
 const checkStripeNotActive = () => {
-  if (!PaymentService.isActive()) {
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: 'Stripe is not active',
-    })
-  }
+  // if (!PaymentService.isActive()) {
+  //   throw new TRPCError({
+  //     code: 'BAD_REQUEST',
+  //     message: 'Stripe is not active',
+  //   })
+  // }
 }
 
 const checkCustomerId = (customer: User | Organization) => {
-  if (!PaymentService.getCustomerId(customer)) {
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: 'No customer id',
-    })
-  }
+  // if (!PaymentService.getCustomerId(customer)) {
+  //   throw new TRPCError({
+  //     code: 'BAD_REQUEST',
+  //     message: 'No customer id',
+  //   })
+  // }
 }

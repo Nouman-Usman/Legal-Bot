@@ -3,7 +3,7 @@
   "workbench.startupEditor": "none",
   "git.confirmSync": false,
   "gitlens.showWelcomeOnInstall": false,
-  "files.autoSave": "off",
+  "files.autoSave": "afterDelay",
   "git.autofetch": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,

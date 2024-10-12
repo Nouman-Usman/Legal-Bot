@@ -5,38 +5,41 @@ import {
   StripeWebhookResponse,
   Subscription,
 } from './payment.type'
-import { Provider } from './providers/provider'
-import { StripeProvider } from './providers/stripe/stripe.provider'
+// import { StripeProvider } from './providers/stripe/stripe.provider'
 
 import { Organization } from '@prisma/client'
 
 class Service {
-  private provider: Provider = new StripeProvider()
+  // private provider: Provider = new StripeProvider()
 
   isActive(): boolean {
-    if (this.provider) {
-      return this.provider?.isActive()
-    }
+    // if (this.provider) {
+    //   return this.provider?.isActive()
+    // }
 
     return false
   }
 
   getCustomerId(user: User | Organization): string {
-    return user.stripeCustomerId
+    // return user.stripeCustomerId
+    return '';
   }
 
   async findManyProducts(): Promise<Product[]> {
-    return this.provider.findManyProducts()
+    // return this.provider.findManyProducts()
+    return [];
   }
 
   async findManySubscriptions(
     customer: User | Organization,
   ): Promise<Subscription[]> {
-    return this.provider.findManySubscriptions(this.getCustomerId(customer))
+    // return this.provider.findManySubscriptions(this.getCustomerId(customer))
+    return [];
   }
 
   async findManyPayments(user: User): Promise<Payment[]> {
-    return this.provider.findManyPayments(this.getCustomerId(user))
+    // return this.provider.findManyPayments(this.getCustomerId(user))
+    return [];
   }
 
   async createPaymentLink(options: {
@@ -48,17 +51,19 @@ class Service {
     metadata?: Record<string, string>
     urlRedirection?: string
   }): Promise<string> {
-    const optionsPayment = {
-      ...options,
+    // const optionsPayment = {
+    //   ...options,
 
-      customerId: this.getCustomerId(options.organization ?? options.user),
-    }
+    //   customerId: this.getCustomerId(options.organization ?? options.user),
+    // }
 
-    return this.provider.createPaymentLink(optionsPayment)
+    // return this.provider.createPaymentLink(optionsPayment)
+    return '';
   }
 
   async onPayment(body: Buffer, sig: string): Promise<StripeWebhookResponse> {
-    return this.provider.onPayment(body, sig)
+    // return this.provider.onPayment(body, sig)
+    return {} as StripeWebhookResponse;
   }
 
   async createCustomer(
@@ -66,11 +71,12 @@ class Service {
 
     organization?: Organization,
   ): Promise<string> {
-    return this.provider.createCustomer({
-      name: organization?.name ?? customer.name ?? customer.email,
+    // return this.provider.createCustomer({
+    //   name: organization?.name ?? customer.name ?? customer.email,
 
-      email: customer.email,
-    })
+    //   email: customer.email,
+    // })
+    return '';
   }
 }
 
