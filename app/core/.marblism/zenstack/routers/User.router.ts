@@ -1,38 +1,96 @@
 /* eslint-disable */
-import { type RouterFactory, type ProcBuilder, type BaseConfig, db } from ".";
 import * as _Schema from '@zenstackhq/runtime/zod/input';
-const $Schema: typeof _Schema = (_Schema as any).default ?? _Schema;
-import { checkRead, checkMutate } from '../helper';
-import type { Prisma } from '@zenstackhq/runtime/models';
-import type { UseTRPCMutationOptions, UseTRPCMutationResult, UseTRPCQueryOptions, UseTRPCQueryResult, UseTRPCInfiniteQueryOptions, UseTRPCInfiniteQueryResult } from '@trpc/react-query/shared';
+import { type BaseConfig, type ProcBuilder, type RouterFactory } from ".";
+// const $Schema: typeof _Schema = (_Schema as any).default ?? _Schema;
+import { Prisma, PrismaClient } from '@prisma/client';
 import type { TRPCClientErrorLike } from '@trpc/client';
+import type { UseTRPCInfiniteQueryOptions, UseTRPCInfiniteQueryResult, UseTRPCMutationOptions, UseTRPCMutationResult, UseTRPCQueryOptions, UseTRPCQueryResult } from '@trpc/react-query/shared';
 import type { AnyRouter } from '@trpc/server';
 
+const $Schema: typeof _Schema & { UserInputSchema: any } = (_Schema as any).default ?? _Schema;
+const prisma = new PrismaClient();
 export default function createRouter<Config extends BaseConfig>(router: RouterFactory<Config>, procedure: ProcBuilder<Config>) {
-    return router({
 
-        createMany: procedure.input($Schema.UserInputSchema.createMany.optional()).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.createMany(input as any))),
-
-        create: procedure.input($Schema.UserInputSchema.create).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.create(input as any))),
-
-        deleteMany: procedure.input($Schema.UserInputSchema.deleteMany.optional()).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.deleteMany(input as any))),
-
-        delete: procedure.input($Schema.UserInputSchema.delete).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.delete(input as any))),
-
-        findFirst: procedure.input($Schema.UserInputSchema.findFirst.optional()).query(({ ctx, input }) => checkRead(db(ctx).user.findFirst(input as any))),
-
-        findMany: procedure.input($Schema.UserInputSchema.findMany.optional()).query(({ ctx, input }) => checkRead(db(ctx).user.findMany(input as any))),
-
-        findUnique: procedure.input($Schema.UserInputSchema.findUnique).query(({ ctx, input }) => checkRead(db(ctx).user.findUnique(input as any))),
-
-        updateMany: procedure.input($Schema.UserInputSchema.updateMany).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.updateMany(input as any))),
-
-        update: procedure.input($Schema.UserInputSchema.update).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.update(input as any))),
-
-        count: procedure.input($Schema.UserInputSchema.count.optional()).query(({ ctx, input }) => checkRead(db(ctx).user.count(input as any))),
-
+    if (!prisma) {
+        throw new Error('Prisma client is not initialized');
     }
-    );
+    return router({
+        createMany: procedure.mutation(async ({ input }) => {
+            return prisma.user.createMany({
+                data: input,
+            });
+        }),
+        create: procedure.mutation(async ({ input }) => {
+            return prisma.user.create({
+                data: input,
+            });
+        }),
+        deleteMany: procedure.mutation(async ({ input }) => {
+            return prisma.user.deleteMany({
+                where: input,
+            });
+        }),
+        delete: procedure.mutation(async ({ input }) => {
+            return prisma.user.delete({
+                where: input,
+            });
+        }),
+        findFirst: procedure.query(async ({ input }) => {
+            return prisma.user.findFirst({
+                where: input,
+            });
+        }),
+        findMany: procedure.query(async ({ input }) => {
+            return prisma.user.findMany({
+                where: input,
+            });
+        }),
+        findUnique: procedure.query(async ({ input }) => {
+            return prisma.user.findUnique({
+                where: input,
+            });
+        }),
+        updateMany: procedure.mutation(async ({ input }) => {
+            return prisma.user.updateMany({
+                where: input.where,
+                data: input.data,
+            });
+        }),
+        update: procedure.mutation(async ({ input }) => {
+            return prisma.user.update({
+                where: input.where,
+                data: input.data,
+            });
+        }),
+        count: procedure.query(async ({ input }) => {
+            return prisma.user.count({
+                where: input,
+            });
+        }),
+    });
+
+    // createMany: procedure.input($Schema.UserInputSchema.createMany.optional()).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.createMany(input as any))),
+
+    // create: procedure.input($Schema.UserInputSchema.create).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.create(input as any))),
+
+    // deleteMany: procedure.input($Schema.UserInputSchema.deleteMany.optional()).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.deleteMany(input as any))),
+
+    // delete: procedure.input($Schema.UserInputSchema.delete).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.delete(input as any))),
+
+    // findFirst: procedure.input($Schema.UserInputSchema.findFirst.optional()).query(({ ctx, input }) => checkRead(db(ctx).user.findFirst(input as any))),
+
+    // findMany: procedure.input($Schema.UserInputSchema.findMany.optional()).query(({ ctx, input }) => checkRead(db(ctx).user.findMany(input as any))),
+
+    // findUnique: procedure.input($Schema.UserInputSchema.findUnique).query(({ ctx, input }) => checkRead(db(ctx).user.findUnique(input as any))),
+
+    // updateMany: procedure.input($Schema.UserInputSchema.updateMany).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.updateMany(input as any))),
+
+    // update: procedure.input($Schema.UserInputSchema.update).mutation(async ({ ctx, input }) => checkMutate(db(ctx).user.update(input as any))),
+
+    // count: procedure.input($Schema.UserInputSchema.count.optional()).query(({ ctx, input }) => checkRead(db(ctx).user.count(input as any))),
+
+    // }
+    // );
 }
 
 export interface ClientType<AppRouter extends AnyRouter, Context = AppRouter['_def']['_config']['$types']['ctx']> {

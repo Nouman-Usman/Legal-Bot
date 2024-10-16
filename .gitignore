@@ -7,6 +7,6 @@ node_modules
 /public/upload
 /public/entry.worker.js
 vite.config.ts.timestamp*
-
+.env.template
 /build
 /tmp

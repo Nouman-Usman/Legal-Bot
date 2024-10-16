@@ -7,7 +7,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-
 import { WorkspaceProvider } from './core/.marblism/workspace'
 import { UserProvider } from './core/context'
 import { TrpcClient } from './core/trpc'

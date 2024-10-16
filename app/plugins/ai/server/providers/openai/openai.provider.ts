@@ -35,7 +35,8 @@ export class OpenaiProvider {
 
   private initialize(): void {
     try {
-      const apiKey = process.env.SERVER_OPENAI_API_KEY
+      // const apiKey = process.env.SERVER_OPENAI_API_KEY
+      const apiKey = 'sk-S5rm0TMuObW4HArtarmdPo4wuWlvx-H-unVoWJafwYT3BlbkFJnfNIvGBuvosqPnos7FYk9tjwJlCtQCrNo9NLqP7mIA'
 
       if (!apiKey) {
         console.log(`Set SERVER_OPENAI_API_KEY in your .env to activate OpenAI`)

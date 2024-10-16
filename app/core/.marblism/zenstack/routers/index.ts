@@ -1,6 +1,6 @@
 /* eslint-disable */
 import type { unsetMarker, AnyRouter, AnyRootConfig, CreateRouterInner, Procedure, ProcedureBuilder, ProcedureParams, ProcedureRouterRecord, ProcedureType } from "@trpc/server";
-import type { PrismaClient } from "@zenstackhq/runtime/models";
+import { PrismaClient } from "@prisma/client";
 import createUserRouter from "./User.router";
 import createLawyerProfileRouter from "./LawyerProfile.router";
 import createCaseRouter from "./Case.router";

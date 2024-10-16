@@ -20,6 +20,7 @@
     "strict": false,
     "allowJs": true,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {

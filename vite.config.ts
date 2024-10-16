@@ -32,11 +32,21 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
-    
+
   ],
   optimizeDeps: {
     exclude: [
 
-],
+    ],
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // You can add global variables, mixins, etc. here
+        // additionalData: `@import "~/designSystem/style/main.scss";
+        // @import "./app/designSystem/style/landing.scss`,
+
+      },
+    },
   },
 })
